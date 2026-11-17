@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D-визуализация и чертежи для строим.дом.рф — Василий</title>
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --primary-hover: #1d4ed8;
+            --accent: #10b981;
+            --bg-light: #f8fafc;
+            --text-dark: #0f172a;
+            --text-muted: #475569;
+            --border: #e2e8f0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: var(--text-dark);
+            line-height: 1.6;
+            background-color: #ffffff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: #ffffff;
+            border-bottom: 1px solid var(--border);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo img {
+            max-height: 55px;
+            width: auto;
+            display: block;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .header-contacts {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .phone-link {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            text-decoration: none;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: var(--primary);
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: background 0.2s;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        /* Hero Section */
+        .hero {
+            background-color: var(--bg-light);
+            padding: 70px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #dbeafe;
+            color: var(--primary);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 2.4rem;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            color: var(--text-dark);
+        }
+
+        .hero p {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+        }
+
+        .hero-features {
+            list-style: none;
+            margin-bottom: 35px;
+        }
+
+        .hero-features li {
+            margin-bottom: 12px;
+            padding-left: 28px;
+            position: relative;
+            font-weight: 500;
+        }
+
+        .hero-features li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .hero-card {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            border: 1px solid var(--border);
+        }
+
+        .hero-card h3 {
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .kit-list {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .kit-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .kit-list li:last-child {
+            border-bottom: none;
+        }
+
+        /* Sections */
+        section {
+            padding: 70px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto 50px;
+            font-size: 1.1rem;
+        }
+
+        /* Benefits */
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .benefit-card {
+            padding: 25px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: #ffffff;
+        }
+
+        .benefit-card h3 {
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+
+        /* Portfolio */
+        .portfolio {
+            background-color: var(--bg-light);
+        }
+
+        .project-block {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .project-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .project-tabs {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 8px 16px;
+            border: 1px solid var(--border);
+            background: var(--bg-light);
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-muted);
+            transition: all 0.2s;
+        }
+
+        .tab-btn.active {
+            background: var(--primary);
+            color: #ffffff;
+            border-color: var(--primary);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 15px;
+        }
+
+        .gallery-item {
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            position: relative;
+            aspect-ratio: 4 / 3;
+            background: #f1f5f9;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+            display: block;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.04);
+        }
+
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 23, 42, 0.75);
+            color: #fff;
+            font-size: 0.85rem;
+            padding: 6px 10px;
+        }
+
+        
+
+
+        /* Pricing */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .price-card {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 35px 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .price-card.featured {
+            border: 2px solid var(--primary);
+            box-shadow: 0 12px 30px rgba(30, 58, 138, 0.08);
+        }
+
+        .price-badge {
+            position: absolute;
+            top: -14px;
+            right: 25px;
+            background: var(--accent);
+            color: #ffffff;
+            font-size: 0.85rem;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+
+        .price-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .price-amount {
+            font-size: 2.4rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .price-amount span {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+
+        .price-desc {
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+
+        .price-features {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+
+        .price-features li {
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+            padding-left: 24px;
+            position: relative;
+        }
+
+        .price-features li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+
+/* FAQ Accordion */
+        .faq-list {
+            max-width: 850px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .faq-item {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 20px 25px;
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .faq-question::-webkit-details-marker {
+            display: none;
+        }
+
+        .faq-question::after {
+            content: "+";
+            font-size: 1.6rem;
+            color: var(--primary);
+            font-weight: 400;
+            line-height: 1;
+        }
+
+        .faq-item[open] .faq-question::after {
+            content: "−";
+        }
+
+        .faq-answer {
+            padding: 15px 25px 20px;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border);
+        }
+
+        .faq-answer ul {
+            margin: 10px 0 0 20px;
+        }
+
+        .faq-answer li {
+            margin-bottom: 6px;
+        }
+
+        /* Contacts */
+        .cta-box {
+            background: var(--primary);
+            color: #ffffff;
+            border-radius: 16px;
+            padding: 50px 30px;
+            text-align: center;
+        }
+
+        .cta-box h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .cta-box p {
+            font-size: 1.15rem;
+            opacity: 0.9;
+            margin-bottom: 30px;
+            max-width: 650px;
+            margin-left: auto;
+margin-right: auto;
+}
+.messengers {
+display: flex;
+justify-content: center;
+gap: 15px;
+flex-wrap: wrap;
+margin-top: 25px;
+}
+.msg-btn {
+padding: 14px 28px;
+border-radius: 8px;
+text-decoration: none;
+font-weight: 600;
+color: #ffffff;
+display: inline-flex;
+align-items: center;
+gap: 8px;
+transition: opacity 0.2s;
+}
+.msg-btn:hover {
+opacity: 0.9;
+}
+.tg { background-color: #0088cc; }
+.wa { background-color: #25d366; }
+.max { background-color: #6366f1; }
+footer {
+text-align: center;
+padding: 30px 20px;
+color: var(--text-muted);
+font-size: 0.95rem;
+border-top: 1px solid var(--border);
+}
+/* Lightbox Modal */
+.modal {
+display: none;
+position: fixed;
+z-index: 1000;
+left: 0;
+top: 0;
+width: 100%;
+height: 100%;
+background-color: rgba(0, 0, 0, 0.85);
+justify-content: center;
+align-items: center;
+padding: 20px;
+}
+.modal img {
+max-width: 95%;
+max-height: 90vh;
+border-radius: 8px;
+box-shadow: 0 5px 30px rgba(0,0,0,0.5);
+}
+.modal-close {
+position: absolute;
+top: 20px;
+right: 30px;
+color: #ffffff;
+font-size: 40px;
+font-weight: bold;
+cursor: pointer;
+}
+@media (max-width: 850px) {
+.hero-grid {
+grid-template-columns: 1fr;
+}
+h1 {
+font-size: 1.9rem;
+}
+.nav-links {
+display: none;
+}
+}
+#### Часть 2 из 2
+```html
+}
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="container header-inner">
+        <a href="#" class="logo">
+            <img src="pic/logo.png" alt="Логотип" width="563" height="194">
+        </a>
+        <nav class="nav-links">
+            <a href="#benefits">Преимущества</a>
+            <a href="#portfolio">Примеры работ</a>
+            <a href="#faq">Частые вопросы</a>
+            <a href="#contacts">Контакты</a>
+        </nav>
+        <div class="header-contacts">
+            <a href="tel:+79183422419" class="phone-link">+7 (918) 342-24-19</a>
+            <a href="#contacts" class="btn">Заказать комплект</a>
+        </div>
+    </div>
+</header>
+
+<section class="hero">
+    <div class="container hero-grid">
+        <div>
+            <span class="badge">Опыт в 3D-визуализации с 2018 года</span>
+            <h1>Графические комплекты для публикации на строим.дом.рф с гарантией модерации</h1>
+            <p>Помогаю застройщикам частных домов быстро упаковать проекты для портала ДОМ.РФ, чтобы ваши клиенты без задержек получали одобрение по ипотеке.</p>
+            <ul class="hero-features">
+                <li>Строгое соблюдение технических требований портала строим.дом.рф</li>
+                <li>Гарантия прохождения: если модератор не примет проект, дорабатываю до победного без изменения цены</li>
+                <li>Оплата на карту после выполнения работы с официальным чеком</li>
+            </ul>
+            <a href="#portfolio" class="btn">Смотреть примеры работ</a>
+        </div>
+
+        <div class="hero-card">
+            <h3>Что входит в один комплект:</h3>
+            <ul class="kit-list">
+                <li><span>3D-рендеры дома (разные ракурсы)</span> <strong>3 шт.</strong></li>
+                <li><span>Архитектурные фасады (все стороны)</span> <strong>4 шт.</strong></li>
+                <li><span>Поэтажная планировка с размерами</span> <strong>1 шт.</strong></li>
+                <li><span>Срок изготовления комплекта</span> <strong>до 3 суток</strong></li>
+            </ul>
+            <a href="#contacts" class="btn" style="width: 100%;">Обсудить проект с Василием</a>
+        </div>
+    </div>
+</section>
+
+<section id="benefits">
+    <div class="container">
+        <h2 class="section-title">Почему застройщики обращаются ко мне</h2>
+        <p class="section-subtitle">Знаю все нюансы приемки материалов на портале — вам не придется тратить время на изучение регламентов и правки.</p>
+        <div class="benefits-grid">
+            <div class="benefit-card">
+                <h3>Доработка до победного</h3>
+                <p>Соблюдаю все требования к ракурсам, осям и отметкам. Если у модератора появятся замечания — внесу все правки бесплатно, без изменения цены, пока проект не примут.</p>
+            </div>
+            <div class="benefit-card">
+                <h3>Ускорение сделок по ипотеке</h3>
+                <p>Банк требует ссылку на дом на строим.дом.рф для выдачи кредита. Готовлю материалы за срок до 3 суток, чтобы ваша сделка не сорвалась.</p>
+            </div>
+            <div class="benefit-card">
+                <h3>Честная оплата и чек</h3>
+                <p>Работаю без предоплаты — вы переводите оплату на карту только после готовности комплекта. Официально выписываю чек для вашей отчетности.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="portfolio" class="portfolio">
+    <div class="container">
+        <h2 class="section-title">Примеры готовых комплектов</h2>
+        <p class="section-subtitle">Нажмите на любое изображение, чтобы открыть его в полном размере. Используйте фильтры для просмотра рендеров, фасадов и планировок.</p>
+
+        <div class="project-block" id="proj-1">
+            <div class="project-header">
+                <div class="project-title">Проект дома — 110 м²</div>
+                <div class="project-tabs">
+                    <button class="tab-btn active" onclick="filterGallery('proj-1', 'all', this)">Весь комплект (8)</button>
+                    <button class="tab-btn" onclick="filterGallery('proj-1', 'render', this)">Рендеры (3)</button>
+                    <button class="tab-btn" onclick="filterGallery('proj-1', 'facade', this)">Фасады (4)</button>
+                    <button class="tab-btn" onclick="filterGallery('proj-1', 'plan', this)">Планировка (1)</button>
+                </div>
+            </div>
+            <div class="gallery-grid">
+                <div class="gallery-item" data-cat="render" onclick="openModal('pic/house01/h01render01.jpg')">
+                    <img src="pic/house01/h01render01.jpg" alt="Дом 110 м2 Рендер 1" loading="lazy">
+                    <div class="gallery-caption">Рендер 1</div>
+                </div>
+                <div class="gallery-item" data-cat="render" onclick="openModal('pic/house01/h01render02.jpg')">
+                    <img src="pic/house01/h01render02.jpg" alt="Дом 110 м2 Рендер 2" loading="lazy">
+                    <div class="gallery-caption">Рендер 2</div>
+                </div>
+                <div class="gallery-item" data-cat="render" onclick="openModal('pic/house01/h01render03.jpg')">
+                    <img src="pic/house01/h01render03.jpg" alt="Дом 110 м2 Рендер 3" loading="lazy">
+                    <div class="gallery-caption">Рендер 3</div>
+                </div>
+                <div class="gallery-item" data-cat="plan" onclick="openModal('pic/house01/h1plan.jpg')">
+                    <img src="pic/house01/h1plan.jpg" alt="Дом 110 м2 Планировка" loading="lazy">
+                    <div class="gallery-caption">Планировка</div>
+                </div>
+                <div class="gallery-item" data-cat="facade" onclick="openModal('pic/house01/h01f1.jpg')">
+                    <img src="pic/house01/h01f1.jpg" alt="Дом 110 м2 Фасад 1" loading="lazy">
+                    <div class="gallery-caption">Фасад 1</div>
+                </div>
+                <div class="gallery-item" data-cat="facade" onclick="openModal('pic/house01/h01f2.jpg')">
+                    <img src="pic/house01/h01f2.jpg" alt="Дом 110 м2 Фасад 2" loading="lazy">
+                    <div class="gallery-caption">Фасад 2</div>
+                </div>
+                <div class="gallery-item" data-cat="facade" onclick="openModal('pic/house01/h01f3.jpg')">
+                    <img src="pic/house01/h01f3.jpg" alt="Дом 110 м2 Фасад 3" loading="lazy">
+                    <div class="gallery-caption">Фасад 3</div>
+                </div>
+                <div class="gallery-item" data-cat="facade" onclick="openModal('pic/house01/h01f4.jpg')">
+                    <img src="pic/house01/h01f4.jpg" alt="Дом 110 м2 Фасад 4" loading="lazy">
+                    <div class="gallery-caption">Фасад 4</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="project-block" id="proj-2">
+            <div class="project-header">
+                <div class="project-title">Проект дома — 100 м²</div>
+                <div class="project-tabs">
+                    <button class="tab-btn active" onclick="filterGallery('proj-2', 'all', this)">Весь комплект (8)</button>
+                    <button class="tab-btn" onclick="filterGallery('proj-2', 'render', this)">Рендеры (3)</button>
+                    <button class="tab-btn" onclick="filterGallery('proj-2', 'facade', this)">Фасады (4)</button>
+                    <button class="tab-btn" onclick="filterGallery('proj-2', 'plan', this)">Планировка (1)</button>
+                </div>
+            </div>
+            <div class="gallery-grid">
+                <div class="gallery-item" data-cat="render" onclick="openModal('pic/house02/h02render01.jpg')">
+                    <img src="pic/house02/h02render01.jpg" alt="Дом 100 м2 Рендер 1" loading="lazy">
+                    <div class="gallery-caption">Рендер 1</div>
+                </div>
+                <div class="gallery-item" data-cat="render" onclick="openModal('pic/house02/h02render02.jpg')">
+                    <img src="pic/house02/h02render02.jpg" alt="Дом 100 м2 Рендер 2" loading="lazy">
+                    <div class="gallery-caption">Рендер 2</div>
+                </div>
+                <div class="gallery-item" data-cat="render" onclick="openModal('pic/house02/h02render03.jpg')">
+                    <img src="pic/house02/h02render03.jpg" alt="Дом 100 м2 Рендер 3" loading="lazy">
+                    <div class="gallery-caption">Рендер 3</div>
+                </div>
+                <div class="gallery-item" data-cat="plan" onclick="openModal('pic/house02/h2plan.jpg')">
+                    <img src="pic/house02/h2plan.jpg" alt="Дом 100 м2 Планировка" loading="lazy">
+                    <div class="gallery-caption">Планировка</div>
+                </div>
+                <div class="gallery-item" data-cat="facade" onclick="openModal('pic/house02/h02f1.jpg')">
+                    <img src="pic/house02/h02f1.jpg" alt="Дом 100 м2 Фасад 1" loading="lazy">
+                    <div class="gallery-caption">Фасад 1</div>
+                </div>
+                <div class="gallery-item" data-cat="facade" onclick="openModal('pic/house02/h02f2.jpg')">
+                    <img src="pic/house02/h02f2.jpg" alt="Дом 100 м2 Фасад 2" loading="lazy">
+                    <div class="gallery-caption">Фасад 2</div>
+                </div>
+                <div class="gallery-item" data-cat="facade" onclick="openModal('pic/house02/h02f3.jpg')">
+                    <img src="pic/house02/h02f3.jpg" alt="Дом 100 м2 Фасад 3" loading="lazy">
+                    <div class="gallery-caption">Фасад 3</div>
+                </div>
+                <div class="gallery-item" data-cat="facade" onclick="openModal('pic/house02/h02f4.jpg')">
+                    <img src="pic/house02/h02f4.jpg" alt="Дом 100 м2 Фасад 4" loading="lazy">
+                    <div class="gallery-caption">Фасад 4</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="project-block" id="proj-3">
+            <div class="project-header">
+                <div class="project-title">Проект дома — 130 м²</div>
+                <div class="project-tabs">
+                    <button class="tab-btn active" onclick="filterGallery('proj-3', 'all', this)">Весь комплект (8)</button>
+                    <button class="tab-btn" onclick="filterGallery('proj-3', 'render', this)">Рендеры (3)</button>
+                    <button class="tab-btn" onclick="filterGallery('proj-3', 'facade', this)">Фасады (4)</button>
+                    <button class="tab-btn" onclick="filterGallery('proj-3', 'plan', this)">Планировка (1)</button>
+                </div>
+            </div>
+            <div class="gallery-grid">
+                <div class="gallery-item" data-cat="render" onclick="openModal('pic/house03/h03render01.jpg')">
+                    <img src="pic/house03/h03render01.jpg" alt="Дом 130 м2 Рендер 1" loading="lazy">
+                    <div class="gallery-caption">Рендер 1</div>
+                </div>
+                <div class="gallery-item" data-cat="render" onclick="openModal('pic/house03/h03render02.jpg')">
+                    <img src="pic/house03/h03render02.jpg" alt="Дом 130 м2 Рендер 2" loading="lazy">
+                    <div class="gallery-caption">Рендер 2</div>
+                </div>
+                <div class="gallery-item" data-cat="render" onclick="openModal('pic/house03/h03render03.jpg')">
+                    <img src="pic/house03/h03render03.jpg" alt="Дом 130 м2 Рендер 3" loading="lazy">
+                    <div class="gallery-caption">Рендер 3</div>
+                </div>
+                <div class="gallery-item" data-cat="plan" onclick="openModal('pic/house03/h3plan.jpg')">
+                    <img src="pic/house03/h3plan.jpg" alt="Дом 130 м2 Планировка" loading="lazy">
+                    <div class="gallery-caption">Планировка</div>
+                </div>
+                <div class="gallery-item" data-cat="facade" onclick="openModal('pic/house03/h03f1.jpg')">
+                    <img src="pic/house03/h03f1.jpg" alt="Дом 130 м2 Фасад 1" loading="lazy">
+                    <div class="gallery-caption">Фасад 1</div>
+                </div>
+                <div class="gallery-item" data-cat="facade" onclick="openModal('pic/house03/h03f2.jpg')">
+                    <img src="pic/house03/h03f2.jpg" alt="Дом 130 м2 Фасад 2" loading="lazy">
+                    <div class="gallery-caption">Фасад 2</div>
+                </div>
+                <div class="gallery-item" data-cat="facade" onclick="openModal('pic/house03/h03f3.jpg')">
+                    <img src="pic/house03/h03f3.jpg" alt="Дом 130 м2 Фасад 3" loading="lazy">
+                    <div class="gallery-caption">Фасад 3</div>
+                </div>
+                <div class="gallery-item" data-cat="facade" onclick="openModal('pic/house03/h03f4.jpg')">
+                    <img src="pic/house03/h03f4.jpg" alt="Дом 130 м2 Фасад 4" loading="lazy">
+                    <div class="gallery-caption">Фасад 4</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="pricing">
+    <div class="container">
+        <h2 class="section-title">Стоимость подготовки материалов</h2>
+        <p class="section-subtitle">Фиксированная цена без скрытых доплат. Оплата на карту только после выполнения работы с официальным чеком.</p>
+
+        <div class="pricing-grid">
+            <div class="price-card">
+                <div>
+                    <div class="price-title">1 проект дома</div>
+                    <div class="price-amount">4 500 ₽ <span>/ комплект</span></div>
+                    <p class="price-desc">Оптимально для быстрого размещения одного проекта под конкретную ипотечную сделку.</p>
+                    <ul class="price-features">
+                        <li>3 качественных 3D-рендера</li>
+                        <li>4 архитектурных фасада со всех сторон</li>
+                        <li>Поэтажная планировка с размерами</li>
+                        <li>Срок изготовления — до 3 суток</li>
+                        <li>Бесплатная доработка до прохождения модерации</li>
+                    </ul>
+                </div>
+                <a href="#contacts" class="btn" style="width: 100%;">Заказать 1 комплект</a>
+            </div>
+
+            <div class="price-card featured">
+                <span class="price-badge">Выгода 8 000 ₽</span>
+                <div>
+                    <div class="price-title">Пакет «Каталог застройщика»</div>
+                    <div class="price-amount">37 000 ₽ <span>/ 10 домов</span></div>
+                    <p class="price-desc">Специальное предложение для упаковки линейки из 10 (и более) однотипных проектов (3 700 ₽ за дом).</p>
+                    <ul class="price-features">
+                        <li>Полный комплект (8 файлов) на каждый из 10 домов</li>
+                        <li>Единый фирменный стиль подачи всех проектов</li>
+                        <li>Поэтапная сдача и оплата по мере готовности</li>
+                        <li>Бесплатная доработка каждого проекта до модерации</li>
+                    </ul>
+                </div>
+                <a href="#contacts" class="btn" style="width: 100%;">Обсудить пакет на 10 домов</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="faq">
+    <div class="container">
+        <h2 class="section-title">Частые вопросы застройщиков</h2>
+        <p class="section-subtitle">Собрал ответы на главные вопросы о старте работы, сроках и документах.</p>
+
+        <div class="faq-list">
+            <details class="faq-item" open>
+                <summary class="faq-question">Какие исходные данные нужны от вас для старта?</summary>
+                <div class="faq-answer">
+                    <p>Для начала работы достаточно прислать мне в мессенджер:</p>
+                    <ul>
+                        <li><strong>Чертеж плана дома с размерами</strong> (подойдет даже аккуратный набросок от руки).</li>
+                        <li><strong>Размеры по высотам:</strong> высота цоколя, стен, крыши и оконных проемов.</li>
+                        <li><strong>Материалы и цвета:</strong> из чего строятся стены и кровля, какие оттенки использовать. Если есть конкретные артикулы кирпича — обязательно укажите их.</li>
+                    </ul>
+                </div>
+            </details>
+
+            <details class="faq-item">
+                <summary class="faq-question">Сколько времени занимает подготовка комплекта?</summary>
+                <div class="faq-answer">
+                    <p>Срок изготовления полного комплекта (3 рендера, 4 фасада и планировка) — <strong>до 3-х суток</strong> с момента согласования исходных данных.</p>
+                </div>
+            </details>
+
+            <details class="faq-item">
+                <summary class="faq-question">Как происходит оплата и есть ли закрывающие документы?</summary>
+                <div class="faq-answer">
+                    <p>Работаю без предоплаты: <strong>оплата на карту после выполнения работы</strong>. После получения оплаты я официально формирую и выписываю чек, поэтому проблем с бухгалтерией и отчетностью не возникнет.</p>
+                </div>
+            </details>
+
+            <details class="faq-item">
+                <summary class="faq-question">Что будет, если модератор строим.дом.рф вернет проект?</summary>
+                <div class="faq-answer">
+                    <p>Если у модерации портала возникнут замечания, я внесу все необходимые корректировки <strong>бесплатно, без изменения цены</strong> — дорабатываем до победного, пока карточка дома не будет опубликована.</p>
+                </div>
+            </details>
+        </div>
+    </div>
+</section>
+
+<section id="contacts">
+    <div class="container">
+        <div class="cta-box">
+            <h2>Готовы разместить проекты на строим.дом.рф?</h2>
+            <p>Напишите мне в удобный мессенджер или позвоните. Меня зовут Василий — подскажу по стоимости и необходимым исходным данным.</p>
+            <div style="font-size: 1.5rem; font-weight: 700; margin-bottom: 10px;">
+                <a href="tel:+79183422419" style="color: #fff; text-decoration: none;">+7 (918) 342-24-19</a>
+            </div>
+            <div class="messengers">
+                <a href="https://t.me" target="_blank" class="msg-btn tg">Написать в Telegram</a>
+                <a href="https://wa.me" target="_blank" class="msg-btn wa">Написать в WhatsApp</a>
+                <a href="tel:+79183422419" class="msg-btn max">Связаться в Max (+79183422419)</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="container">
+        <p>© Василий — 3D-визуализация и подготовка графических комплектов для портала строим.дом.рф. Опыт работы с 2018 года.</p>
+    </div>
+</footer>
+
+<div id="imgModal" class="modal" onclick="closeModal()">
+    <span class="modal-close">&times;</span>
+    <img id="modalImg" src="" alt="Увеличенное изображение">
+</div>
+
+<script>
+    function filterGallery(projectId, category, btnElement) {
+        const project = document.getElementById(projectId);
+        const buttons = project.querySelectorAll('.tab-btn');
+        buttons.forEach(btn => btn.classList.remove('active'));
+        btnElement.classList.add('active');
+
+        const items = project.querySelectorAll('.gallery-item');
+        items.forEach(item => {
+            if (category === 'all' || item.getAttribute('data-cat') === category) {
+                item.style.display = 'block';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    }
+
+    function openModal(src) {
+        const modal = document.getElementById('imgModal');
+        const modalImg = document.getElementById('modalImg');
+        modal.style.display = 'flex';
+        modalImg.src = src;
+    }
+
+    function closeModal() {
+        document.getElementById('imgModal').style.display = 'none';
+    }
+
+    document.addEventListener('keydown', function(event) {
+        if (event.key === "Escape") {
+            closeModal();
+        }
+    });
+</script>
+
+</body>
+</html>
